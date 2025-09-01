@@ -108,7 +108,7 @@
         async function getWeather() {
             let city = document.querySelector("#userinput").value;
 
-            const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=0b626f66ae274fceab1124046252108&q=${city}&aqi=yes`);
+            const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=0b626f66ae274fceab1124046252108&q=${city}&aqi=yes`);
             const data = await response.json();
             console.log(data);
 
