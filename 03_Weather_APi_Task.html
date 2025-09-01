@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+        }
+
+        .weather-card {
+            background: #ffffffcc;
+            padding: 25px 30px;
+            border-radius: 20px;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        .weather-card h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .weather-card input {
+            padding: 10px;
+            width: 70%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .weather-card button {
+            padding: 10px 15px;
+            margin-left: 5px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .weather-card button:hover {
+            background: #0056b3;
+        }
+
+        .weather-card img {
+            margin: 15px 0;
+            width: 90px;
+        }
+
+        .weather-info {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .weather-info div {
+            margin: 6px 0;
+            font-size: 16px;
+            color: #444;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #000;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weather-card">
+        <h2>🌤 Weather App</h2>
+        <input type="text" id="userinput" placeholder="Enter City">
+        <button onclick="getWeather()">Search</button>
+
+        <img src="" alt="Weather Icon">
+        <div class="weather-info">
+            <div>City : <span id="city" class="highlight"></span></div>
+            <div>Temperature : <span id="temp" class="highlight"></span></div>
+            <div>Air Quality : <span id="air" class="highlight"></span></div>
+            <div>Cloud : <span id="cloud" class="highlight"></span></div>
+            <div>Humidity : <span id="humidity" class="highlight"></span></div>
+            <div>Wind : <span id="wind" class="highlight"></span></div>
+            <div>Local Time : <span id="localtime" class="highlight"></span></div>
+        </div>
+    </div>
+
+    <script>
+        async function getWeather() {
+            let city = document.querySelector("#userinput").value;
+
+            const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=0b626f66ae274fceab1124046252108&q=${city}&aqi=yes`);
+            const data = await response.json();
+            console.log(data);
+
+            document.querySelector("#city").innerHTML = `${data.location.name}, ${data.location.country}`;
+            document.querySelector("#temp").innerHTML = `${data.current.temp_c}°C`;
+            document.querySelector("img").src = data.current.condition.icon;
+            document.querySelector("#air").innerHTML = `${data.current.air_quality.co}`;
+            document.querySelector("#cloud").innerHTML = `${data.current.cloud}%`;
+            document.querySelector("#humidity").innerHTML = `${data.current.humidity}%`;
+            document.querySelector("#wind").innerHTML = `${data.current.wind_kph} Kph`;
+            document.querySelector("#localtime").innerHTML = `${data.location.localtime}`;
+        }
+    </script>
+</body>
+
+</html>
